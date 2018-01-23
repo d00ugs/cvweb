@@ -10,9 +10,9 @@ interface CVMainDataState {
 export class CVMain extends React.Component<RouteComponentProps<{}>, CVMainDataState> {
     constructor() {
         super();
-        this.state = { overview: '', loading: true };
+        this.state = { overview: {summary : ''}, loading: true };
 
-        fetch('localhost:8080/api/cv/overview')
+        fetch('http://localhost:8080/api/cv/overview')
             .then(response => response.json() as Promise<CVOverview>)
             .then(data => {
                 this.setState({ overview: data, loading: false });
@@ -25,8 +25,7 @@ export class CVMain extends React.Component<RouteComponentProps<{}>, CVMainDataS
             : CVMain.renderCVOverview(this.state.overview);
 
         return <div>
-            <h1>Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
+            <h1>dou.gs</h1>
             { contents }
         </div>;
     }
