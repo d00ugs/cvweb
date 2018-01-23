@@ -13,9 +13,9 @@ export class CVMain extends React.Component<RouteComponentProps<{}>, CVMainDataS
         this.state = { overview: {summary : ''}, loading: true };
 
         fetch('http://localhost:8080/api/cv/overview')
-            .then(response => response.json() as Promise<CVOverview>)
+            .then(response => response.json() as Promise<string>)
             .then(data => {
-                this.setState({ overview: data, loading: false });
+                this.setState({ overview: {summary : data}, loading: false });
             });
     }
 
