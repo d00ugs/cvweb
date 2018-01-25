@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
+import { Card, CardTitle, CardText, Button } from 'reactstrap';
 
 interface CVMainDataState {
     data: CVOverview;
@@ -8,8 +9,8 @@ interface CVMainDataState {
 }
 
 export class CVMain extends React.Component<RouteComponentProps<{}>, CVMainDataState> {
-    constructor() {
-        super();
+    constructor(props: RouteComponentProps<{}>) {
+        super(props);
         this.state = { data: {overview: ''}, loading: true };
 
         fetch('http://localhost:8080/api/cv/overview')
@@ -32,7 +33,11 @@ export class CVMain extends React.Component<RouteComponentProps<{}>, CVMainDataS
 
     private static renderCVOverview(data: CVOverview) {
         return <p>
-            {data.overview}</p>;
+            <Card>
+                <CardTitle>I</CardTitle>
+                <CardText>{data.overview}</CardText>
+                <Button>Test</Button>
+            </Card></p>;
     }
 }
 
