@@ -8,7 +8,7 @@ export class CVHead extends React.Component<{}> {
     public render() {
         return (
             <Card>
-                <CardImg src='/img/dougs.png' />
+                <CardImg src="/img/dougs.png" />
                 <CardImgOverlay>
                     <h1 className="display-3">dougs</h1>
                     <hr className="my-2" />
