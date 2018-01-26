@@ -1,0 +1,9 @@
+version: '3'
+services:
+  cvweb:
+    image: cvweb
+    container_name: cvweb
+    build: .
+    ports:
+     - "9090:80"
+     

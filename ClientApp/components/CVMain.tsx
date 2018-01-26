@@ -8,9 +8,13 @@ interface CVMainDataState {
     loading: boolean;
 }
 
-export class CVMain extends React.Component<RouteComponentProps<{}>, CVMainDataState> {
-    constructor(props: RouteComponentProps<{}>) {
-        super(props);
+interface CVOverview {
+    overview: string;
+}
+
+export class CVMain extends React.Component<{}, CVMainDataState> {
+    constructor() {
+        super({});
         this.state = { data: {overview: ''}, loading: true };
 
         fetch('http://localhost:8080/api/cv/overview')
@@ -25,22 +29,14 @@ export class CVMain extends React.Component<RouteComponentProps<{}>, CVMainDataS
             ? <p><em>Loading...</em></p>
             : CVMain.renderCVOverview(this.state.data);
 
-        return <div>
-            <h1>dou.gs</h1>
-            { contents }
-        </div>;
+        return (
+            <Card>
+                { contents }
+            </Card>
+        );
     }
 
     private static renderCVOverview(data: CVOverview) {
-        return <p>
-            <Card>
-                <CardTitle>I</CardTitle>
-                <CardText>{data.overview}</CardText>
-                <Button>Test</Button>
-            </Card></p>;
+        return (<CardText>{data.overview}</CardText>);
     }
-}
-
-interface CVOverview {
-    overview: string;
 }
