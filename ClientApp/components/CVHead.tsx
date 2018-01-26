@@ -8,7 +8,7 @@ export class CVHead extends React.Component<{}> {
     public render() {
         return (
             <Card>
-                <CardImg height="30%" width="30%" src='http://dou.gs/wp-content/uploads/2014/06/12705795_10153250107817062_2436479254352800384_n-1.jpg' />
+                <CardImg src='/img/dougs.png' />
                 <CardImgOverlay>
                     <h1 className="display-3">dougs</h1>
                     <hr className="my-2" />

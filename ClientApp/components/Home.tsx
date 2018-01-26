@@ -6,7 +6,6 @@ import {CVMain} from './CVMain';
 import {CVHead} from './CVHead';
 
 export class Home extends React.Component<RouteComponentProps<{}>> {
-    cons
 
     public render() {
         return (
