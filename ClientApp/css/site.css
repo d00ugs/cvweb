@@ -64,3 +64,8 @@
         text-overflow: ellipsis;
     }
 }
+.card-img-bottom {
+    height: 20rem;
+    background: url(/img/mini-me.jpg) center no-repeat;
+    background-size: contain;
+  }

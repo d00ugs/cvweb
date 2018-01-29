@@ -7,12 +7,14 @@ export class CVHead extends React.Component<{}> {
    
     public render() {
         return (
-            <Card>
+            <Card inverse>
                 <CardImg src="/img/dougs.png" />
-                <CardImgOverlay>
-                    <h1 className="display-3">dougs</h1>
-                    <hr className="my-2" />
-                    <p><small>Dougal Kennedy</small></p>
+                <CardImgOverlay className="d-flex">
+                    <div className="my-auto mx-auto text-center">
+                        <h1 className="display-1"><strong>dougs</strong></h1>
+                        <hr className="my-2" />
+                        <p>Dougal Kennedy</p>
+                    </div>
                 </CardImgOverlay>
             </Card>
         );

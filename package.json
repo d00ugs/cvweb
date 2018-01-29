@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "devDependencies": {
     "@types/history": "4.6.2",
+    "@types/node": "^9.4.0",
     "@types/react": "^16.0.34",
     "@types/react-dom": "16.0.3",
     "@types/react-hot-loader": "3.0.5",
@@ -31,7 +32,9 @@
     "webpack-hot-middleware": "2.21.0"
   },
   "dependencies": {
+    "@types/react-icons": "^2.2.4",
     "@types/reactstrap": "^5.0.11",
+    "babel-preset-react": "^6.24.1",
     "bootstrap": "^4.0.0-beta.3",
     "popper.js": "^1.12.9",
     "react-transition-group": "^1.2.1",
