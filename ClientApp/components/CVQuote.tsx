@@ -41,11 +41,11 @@ export class CVQuote extends React.Component<{}, CVQuoteDataState> {
     private static renderCVOverview(data: CVQuoteDataState) {
         return (
             <div className="my-auto mx-auto text-center">
-                <h3>
+                <p className="lead">
                     <FA.FaQuoteLeft/>
                     {data.quote}
                     <FA.FaQuoteRight/>
-                </h3>
+                </p>
                 <p><strong>{data.quote_author}</strong></p>
             </div>
         );

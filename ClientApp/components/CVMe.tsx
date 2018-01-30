@@ -50,7 +50,6 @@ export class CVMe extends React.Component<{}, CVMeDataState> {
 
     private static renderCVOverview(data: CVMeDataState) {
         return (
-            <div>
             <CardDeck>
                 <Card>
                     <CardBody><p><strong>Born</strong></p><p>{data.born}</p></CardBody>
@@ -61,7 +60,7 @@ export class CVMe extends React.Component<{}, CVMeDataState> {
                 <Card>
                     <CardBody><p><strong>Email</strong></p><p>{data.email}&#46;{data.email_tld}</p></CardBody>
                 </Card>
-            </CardDeck></div>
+            </CardDeck>
         );
     }
 }
