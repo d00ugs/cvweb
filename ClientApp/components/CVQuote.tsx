@@ -2,46 +2,51 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
 import { Card, CardImg, CardImgOverlay } from 'reactstrap';
-//import * as FA from 'react-icons/lib/fa';
+import * as FA from 'react-icons/lib/fa';
 
 interface CVQuoteDataState {
-    data: string;
-    loading: boolean;
+    quote: string;
+    quote_author: string;
 }
 
 export class CVQuote extends React.Component<{}, CVQuoteDataState> {
     constructor() {
         super({});
-        this.state = { data: '', loading: true };
+        this.state = { quote: '', quote_author: '' };
 
         fetch('http://localhost:8080/api/cv/quote')
             .then((response) => response.json() as Promise<string>)
             .then(recv => {
-                this.setState({ data: recv, loading: false });
+                this.setState({ quote: recv});
+            });
+            fetch('http://localhost:8080/api/cv/quote_author')
+            .then((response) => response.json() as Promise<string>)
+            .then(recv => {
+                this.setState({ quote_author: recv});
             });
     }
 
     public render() {
-        let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
-            : CVQuote.renderCVOverview(this.state.data);
-//
+        let contents = CVQuote.renderCVOverview(this.state);
         return (
             <Card inverse>
                 <CardImg src="/img/gears.jpg" />
-                <CardImgOverlay>
+                <CardImgOverlay className="d-flex">
                     { contents }
                 </CardImgOverlay>
             </Card>
         );
     }
 
-    private static renderCVOverview(data: string) {
+    private static renderCVOverview(data: CVQuoteDataState) {
         return (
-            <div>
-                
-                {data}
-                
+            <div className="my-auto mx-auto text-center">
+                <h3>
+                    <FA.FaQuoteLeft/>
+                    {data.quote}
+                    <FA.FaQuoteRight/>
+                </h3>
+                <p><strong>{data.quote_author}</strong></p>
             </div>
         );
     }

@@ -5,6 +5,7 @@ import {Row} from 'reactstrap';
 import {CVMain} from './CVMain';
 import {CVHead} from './CVHead';
 import {CVQuote} from './CVQuote';
+import {CVMe} from './CVMe';
 
 export class Home extends React.Component<RouteComponentProps<{}>> {
 
@@ -12,6 +13,8 @@ export class Home extends React.Component<RouteComponentProps<{}>> {
         return (
             <div>
                 <CVHead/>
+
+                <CVMe />
             
                 <CVMain/>
 
