@@ -2,6 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
 import { Card, CardImg, CardImgOverlay } from 'reactstrap';
+//import * as FA from 'react-icons/lib/fa';
 
 interface CVQuoteDataState {
     data: string;
@@ -24,7 +25,7 @@ export class CVQuote extends React.Component<{}, CVQuoteDataState> {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
             : CVQuote.renderCVOverview(this.state.data);
-
+//
         return (
             <Card inverse>
                 <CardImg src="/img/gears.jpg" />
@@ -38,7 +39,9 @@ export class CVQuote extends React.Component<{}, CVQuoteDataState> {
     private static renderCVOverview(data: string) {
         return (
             <div>
+                
                 {data}
+                
             </div>
         );
     }
