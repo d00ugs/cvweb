@@ -32,10 +32,10 @@ export class CVPortfolio extends React.Component<{}, CVPortfolioDataState> {
             .then(recv => {
                 this.setState({ profolio_titles: recv});
             });
-   }
+    }
 
     public render() {
-        let contents = CVPortfolio.renderCVOverview(this.state);
+        let contents = this.renderCVOverview(this.state);
         return (
             <Row>
                 <Col></Col>
@@ -45,13 +45,13 @@ export class CVPortfolio extends React.Component<{}, CVPortfolioDataState> {
         );
     }
 
-    private static renderCVOverview(data: CVPortfolioDataState) {
+    private renderCVOverview(data: CVPortfolioDataState) {
         return (
             <Card>
                 <CardHeader>Portfolio</CardHeader>
                 <CardBody>
                     <ListGroup>
-                        {data.profolio_titles.map(item => {
+                        {data.profolio_titles.map((item, index) => {
                             var internal = (data.expanded_key != item.key) ? "" :
                             (
                                 <ListGroupItemText>
@@ -62,17 +62,18 @@ export class CVPortfolio extends React.Component<{}, CVPortfolioDataState> {
                                 </ListGroupItemText>
                             );
                             return(
-                                <ListGroupItem tag="button" action>
+                                <li className="list-group-item" onClick={() => {this.setState({expanded_key: item.key})}}>
                                     <ListGroupItemHeading>
                                         {item.value.title}
                                     </ListGroupItemHeading>
                                     {internal}
-                                </ListGroupItem>
+                                </li>
                             );
                         })}
                     </ListGroup>
                 </CardBody>
             </Card>
         );
+
     }
 }
