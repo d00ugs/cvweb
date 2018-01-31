@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
-import { ListGroup, Row, Col, Card, CardImg, CardImgOverlay, CardDeck, CardBlock, CardBody, CardHeader, ListGroupItemHeading, ListGroupItemText} from 'reactstrap';
-import ListGroupItem from 'reactstrap/lib/ListGroupItem';
-
+import { ListGroupItem, ListGroup, Row, Col, Card, CardImg, CardImgOverlay, CardDeck, CardBlock, CardBody, CardHeader, ListGroupItemHeading, ListGroupItemText} from 'reactstrap';
+import {Collapse} from 'react-collapse';
 
 interface CVPortfolioDataState {
     profolio_titles: CVPortfolioFull[];
@@ -52,22 +51,20 @@ export class CVPortfolio extends React.Component<{}, CVPortfolioDataState> {
                 <CardBody>
                     <ListGroup>
                         {data.profolio_titles.map((item, index) => {
-                            var internal = (data.expanded_key != item.key) ? "" :
-                            (
-                                <ListGroupItemText>
-                                    <div>
-                                        <p><em>{item.value.duration}</em></p>
-                                        <p>{item.value.description}</p>
-                                    </div>
-                                </ListGroupItemText>
-                            );
                             return(
-                                <li className="list-group-item" onClick={() => {this.setState({expanded_key: item.key})}}>
+                                <ListGroupItem onClick={() => {this.setState({expanded_key: item.key})}}>
                                     <ListGroupItemHeading>
                                         {item.value.title}
                                     </ListGroupItemHeading>
-                                    {internal}
-                                </li>
+                                    <Collapse isOpened={data.expanded_key == item.key}>
+                                        <ListGroupItemText>
+                                            <div>
+                                                <p><em>{item.value.duration}</em></p>
+                                                <p>{item.value.description}</p>
+                                            </div>
+                                        </ListGroupItemText>
+                                    </Collapse>
+                                </ListGroupItem>
                             );
                         })}
                     </ListGroup>
