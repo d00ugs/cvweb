@@ -1,11 +1,29 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
-import { ListGroupItem, ListGroup, Row, Col, Card, CardImg, CardImgOverlay, CardDeck, CardBlock, CardBody, CardHeader, ListGroupItemHeading, ListGroupItemText} from 'reactstrap';
-import {Collapse} from 'react-collapse';
+import {
+    Button,
+    ButtonGroup,
+    Container, 
+    Collapse, 
+    ListGroupItem, 
+    ListGroup, 
+    Row, 
+    Col, 
+    Card, 
+    CardImg, 
+    CardImgOverlay, 
+    CardDeck, 
+    CardBlock, 
+    CardBody, 
+    CardHeader, 
+    ListGroupItemHeading, 
+    ListGroupItemText
+} from 'reactstrap';
 
 interface CVPortfolioDataState {
     profolio_titles: CVPortfolioFull[];
+    categories: CVPortfolioCategories[];
     expanded_key: string;
 }
 
@@ -19,17 +37,28 @@ interface CVPortfolioDefn {
     category: string;
     description: string;
     duration: string;
+    imgUrl: string;
+}
+
+interface CVPortfolioCategories {
+    key: string;
+    value: string;
 }
 
 export class CVPortfolio extends React.Component<{}, CVPortfolioDataState> {
     constructor() {
         super({});
-        this.state = { profolio_titles: [], expanded_key: '' };
+        this.state = { profolio_titles: [], categories: [], expanded_key: '' };
 
         fetch('http://localhost:8080/api/portfolio')
             .then((response) => response.json() as Promise<CVPortfolioFull[]>)
             .then(recv => {
                 this.setState({ profolio_titles: recv});
+            });
+            fetch('http://localhost:8080/api/categories')
+            .then((response) => response.json() as Promise<CVPortfolioCategories[]>)
+            .then(recv => {
+                this.setState({ categories: recv});
             });
     }
 
@@ -56,30 +85,46 @@ export class CVPortfolio extends React.Component<{}, CVPortfolioDataState> {
     private renderCVOverview(data: CVPortfolioDataState) {
         return (
             <Card>
-                <CardHeader>Portfolio</CardHeader>
+                <CardHeader>Projects</CardHeader>
                 <CardBody>
-                    <ListGroup>
-                        {data.profolio_titles.map((item, index) => {
-                            var active: boolean = data.expanded_key == '' || data.expanded_key == item.key;
-                            var internal = data.expanded_key != item.key ? "" : (
-                                <ListGroupItemText>
-                                    <div>
-                                        <p><em>{item.value.duration}</em></p>
-                                        <p>{item.value.description}</p>
-                                    </div>
-                                </ListGroupItemText>
+                    <ButtonGroup>
+                        <Button>All</Button>
+                        {
+                            data.categories.map((item, index) => {
+                                return(
+                                    <Button key={index}>{item.value}</Button>
                                 );
-                            return(
-                                <Collapse isOpened={active}>
-                                    <ListGroupItem key={index}  onClick={() => {this.setKey(item.key)}}>
-                                        <ListGroupItemHeading>
-                                            {item.value.title}
-                                        </ListGroupItemHeading>
-                                        {internal}
-                                    </ListGroupItem>
-                                </Collapse>
-                            );
-                        })}
+                            })
+                        }
+                    </ButtonGroup>
+                    <ListGroup>
+                        {
+                            data.profolio_titles.map((item, index) => {
+                                var active: boolean = data.expanded_key == '' || data.expanded_key == item.key;
+                                var img = item.value.imgUrl == "" ? "" : (
+                                    <img src={"/img/" + item.value.imgUrl} className="img-fluid rounded" />
+                                );
+                                var internal = data.expanded_key != item.key ? "" : (
+                                    
+                                        <div>
+                                            {img}
+                                            <p><em>{item.value.duration}</em></p>
+                                            <p>{item.value.description}</p>
+                                        </div>
+                                    
+                                    );
+                                return(
+                                    <Collapse key={index} isOpen={active}>
+                                        <ListGroupItem onClick={() => {this.setKey(item.key)}}>
+                                            <ListGroupItemHeading>
+                                                {item.value.title}
+                                            </ListGroupItemHeading>
+                                            {internal}
+                                        </ListGroupItem>
+                                    </Collapse>
+                                );
+                            })
+                        }
                     </ListGroup>
                 </CardBody>
             </Card>

@@ -35,7 +35,7 @@ export class CVMain extends React.Component<{}, CVMainDataState> {
                 <CardHeader>About Me</CardHeader>
                 <CardBody>
                 <Row>
-                    <Col xs="3" align-middle>
+                    <Col xs="3">
                         <div  className="card-img-bottom">
                         </div>
                     </Col>
