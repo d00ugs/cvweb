@@ -25,6 +25,7 @@ interface CVPortfolioDataState {
     profolio_titles: CVPortfolioFull[];
     categories: CVPortfolioCategories[];
     expanded_key: string;
+    filter_key: string;
 }
 
 interface CVPortfolioFull {
@@ -48,7 +49,7 @@ interface CVPortfolioCategories {
 export class CVPortfolio extends React.Component<{}, CVPortfolioDataState> {
     constructor() {
         super({});
-        this.state = { profolio_titles: [], categories: [], expanded_key: '' };
+        this.state = { profolio_titles: [], categories: [], expanded_key: '', filter_key: CVPortfolio.allkey };
 
         fetch('http://localhost:8080/api/portfolio')
             .then((response) => response.json() as Promise<CVPortfolioFull[]>)
@@ -73,8 +74,7 @@ export class CVPortfolio extends React.Component<{}, CVPortfolioDataState> {
         );
     }
     
-    public setKey(key : string)
-    {
+    public setKey(key: string) {
         if (this.state.expanded_key == key)
         {
             key = '';
@@ -82,24 +82,32 @@ export class CVPortfolio extends React.Component<{}, CVPortfolioDataState> {
         this.setState({expanded_key: key});
     }
 
+    public changeFilter(key: string) {
+        this.setState({filter_key: key, expanded_key: ''});
+    }
+
+    public static allkey: string = 'All';
+
     private renderCVOverview(data: CVPortfolioDataState) {
         return (
             <Card>
                 <CardHeader>Projects</CardHeader>
                 <CardBody>
                     <ButtonGroup>
-                        <Button>All</Button>
+                        <Button key="all" onClick={() => this.changeFilter(CVPortfolio.allkey)} active={data.filter_key == CVPortfolio.allkey}>All</Button>
                         {
                             data.categories.map((item, index) => {
                                 return(
-                                    <Button key={index}>{item.value}</Button>
+                                    <Button key={index} onClick={() => this.changeFilter(item.key)} active={data.filter_key == item.key}>
+                                        {item.value}
+                                    </Button>
                                 );
                             })
                         }
                     </ButtonGroup>
                     <ListGroup>
                         {
-                            data.profolio_titles.map((item, index) => {
+                            data.profolio_titles.filter(item => {return data.filter_key == CVPortfolio.allkey || item.value.category == data.filter_key}).map((item, index) => {
                                 var active: boolean = data.expanded_key == '' || data.expanded_key == item.key;
                                 var img = item.value.imgUrl == "" ? "" : (
                                     <img src={"/img/" + item.value.imgUrl} className="img-fluid rounded" />
