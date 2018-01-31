@@ -43,6 +43,15 @@ export class CVPortfolio extends React.Component<{}, CVPortfolioDataState> {
             </Row>
         );
     }
+    
+    public setKey(key : string)
+    {
+        if (this.state.expanded_key == key)
+        {
+            key = '';
+        }
+        this.setState({expanded_key: key});
+    }
 
     private renderCVOverview(data: CVPortfolioDataState) {
         return (
@@ -51,20 +60,24 @@ export class CVPortfolio extends React.Component<{}, CVPortfolioDataState> {
                 <CardBody>
                     <ListGroup>
                         {data.profolio_titles.map((item, index) => {
+                            var active: boolean = data.expanded_key == '' || data.expanded_key == item.key;
+                            var internal = data.expanded_key != item.key ? "" : (
+                                <ListGroupItemText>
+                                    <div>
+                                        <p><em>{item.value.duration}</em></p>
+                                        <p>{item.value.description}</p>
+                                    </div>
+                                </ListGroupItemText>
+                                );
                             return(
-                                <ListGroupItem onClick={() => {this.setState({expanded_key: item.key})}}>
-                                    <ListGroupItemHeading>
-                                        {item.value.title}
-                                    </ListGroupItemHeading>
-                                    <Collapse isOpened={data.expanded_key == item.key}>
-                                        <ListGroupItemText>
-                                            <div>
-                                                <p><em>{item.value.duration}</em></p>
-                                                <p>{item.value.description}</p>
-                                            </div>
-                                        </ListGroupItemText>
-                                    </Collapse>
-                                </ListGroupItem>
+                                <Collapse isOpened={active}>
+                                    <ListGroupItem key={index}  onClick={() => {this.setKey(item.key)}}>
+                                        <ListGroupItemHeading>
+                                            {item.value.title}
+                                        </ListGroupItemHeading>
+                                        {internal}
+                                    </ListGroupItem>
+                                </Collapse>
                             );
                         })}
                     </ListGroup>
