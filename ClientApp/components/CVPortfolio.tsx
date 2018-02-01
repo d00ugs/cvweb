@@ -94,11 +94,11 @@ export class CVPortfolio extends React.Component<{}, CVPortfolioDataState> {
                 <CardHeader>Projects</CardHeader>
                 <CardBody>
                     <ButtonGroup>
-                        <Button key="all" onClick={() => this.changeFilter(CVPortfolio.allkey)} active={data.filter_key == CVPortfolio.allkey}>All</Button>
+                        <Button color="primary" key="all" onClick={() => this.changeFilter(CVPortfolio.allkey)} active={data.filter_key == CVPortfolio.allkey}>All</Button>
                         {
                             data.categories.map((item, index) => {
                                 return(
-                                    <Button key={index} onClick={() => this.changeFilter(item.key)} active={data.filter_key == item.key}>
+                                    <Button color="secondary" key={index} onClick={() => this.changeFilter(item.key)} active={data.filter_key == item.key}>
                                         {item.value}
                                     </Button>
                                 );
@@ -107,8 +107,8 @@ export class CVPortfolio extends React.Component<{}, CVPortfolioDataState> {
                     </ButtonGroup>
                     <ListGroup>
                         {
-                            data.profolio_titles.filter(item => {return data.filter_key == CVPortfolio.allkey || item.value.category == data.filter_key}).map((item, index) => {
-                                var active: boolean = data.expanded_key == '' || data.expanded_key == item.key;
+                            data.profolio_titles.map((item, index) => {
+                                var active: boolean = (data.expanded_key == '' && (data.filter_key == CVPortfolio.allkey || item.value.category == data.filter_key)) || data.expanded_key == item.key;
                                 var img = item.value.imgUrl == "" ? "" : (
                                     <img src={"/img/" + item.value.imgUrl} className="img-fluid rounded" />
                                 );

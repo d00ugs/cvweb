@@ -7,6 +7,8 @@ import {CVHead} from './CVHead';
 import {CVQuote} from './CVQuote';
 import {CVMe} from './CVMe';
 import {CVPortfolio} from './CVPortfolio';
+import {CVStats} from './CVStats';
+import {CVSkills} from './CVSkillz';
 
 export class Home extends React.Component<RouteComponentProps<{}>> {
 
@@ -15,13 +17,17 @@ export class Home extends React.Component<RouteComponentProps<{}>> {
             <div>
                 <CVHead/>
 
-                <CVMe />
+                <CVMe/>
             
                 <CVMain/>
 
                 <CVQuote/>
 
                 <CVPortfolio/>
+
+                <CVStats/>
+
+                <CVSkills/>
             </div>
         );
     }
