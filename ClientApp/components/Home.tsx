@@ -9,6 +9,7 @@ import {CVMe} from './CVMe';
 import {CVPortfolio} from './CVPortfolio';
 import {CVStats} from './CVStats';
 import {CVSkills} from './CVSkillz';
+import {CVTimeline} from './CVTimeline';
 
 export class Home extends React.Component<RouteComponentProps<{}>> {
 
@@ -28,6 +29,8 @@ export class Home extends React.Component<RouteComponentProps<{}>> {
                 <CVStats/>
 
                 <CVSkills/>
+
+                <CVTimeline/>
             </div>
         );
     }

@@ -2,6 +2,8 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
 import {
+    Row,
+    Col,
     CardTitle,
     CardText,
     CardColumns,
@@ -19,9 +21,9 @@ interface CVTimelineDataState {
 
 interface CVTimelineDefn {
     title: string;
-    description: string;
-    icon: string;
-    icon_colour: string;
+    subtitle: string;
+    start_year: number;
+    end_year: number;
 }
 
 
@@ -30,18 +32,18 @@ export class CVTimeline extends React.Component<{}, CVTimelineDataState> {
         super({});
         this.state = { timeline: [], loading: true };
 
-        fetch('http://localhost:8080/api/skills')
+        fetch('http://localhost:8080/api/timeline')
             .then((response) => response.json() as Promise<CVTimelineDefn[]>)
-            .then(recv => {
+            .then(recv => { console.log(recv);
                 this.setState({ timeline: recv, loading: false});
             });
     }
 
     public render() {
-        let contents = this.state.loading? "Loading..." : this.renderCVStats(this.state.timeline);
+        let contents = this.state.loading? "Loading..." : this.renderCVTimeline(this.state.timeline);
         return (
             <Card>
-                <CardHeader>Skills</CardHeader>
+                <CardHeader>Career</CardHeader>
                 <CardBody>
                     {contents}
                 </CardBody>
@@ -49,58 +51,60 @@ export class CVTimeline extends React.Component<{}, CVTimelineDataState> {
         );
     }
 
-    private renderIcon(item :CVTimelineDefn)
-    {
-        var colour = item.icon_colour;
-        var icon = <div></div>;
-        switch(item.icon)
-        {
-            case "fa-heart-o" :
-                icon = <FA.FaHeartO color={colour} />
-            break;
-            case "fa-barcode" :
-                icon = <FA.FaBarcode color={colour} />
-            break;
-            case "fa-briefcase" :
-                icon = <FA.FaBriefcase color={colour} />
-            break;
-            case "fa-compass" :
-                icon = <FA.FaCompass color={colour} />
-            break;
-            case "fa-windows" :
-                icon = <FA.FaWindows color={colour} />
-            break;
-            case "fa-tripadvisor" :
-                icon = <FA.FaTripadvisor color={colour} />
-            break;
-        }
-        return icon;
-    }
-
     private renderCard(item: CVTimelineDefn, index: number) {
-        var icon = this.renderIcon(item);
-        return (
-                <Card key={index}>
+        var card = (
+            <Card key={index}>
                     <CardBody>
-                        <CardTitle className="text-center display-2">
-                            {icon}
+                        <CardTitle>
+                            {item.title}
                         </CardTitle>
                         <CardSubtitle>
-                            {item.title}
+                            {item.subtitle}
                         </CardSubtitle>
                         <CardText>
-                            {item.description}
+                            {item.start_year}-{item.end_year ?  item.end_year : ""}
                         </CardText>
                     </CardBody>
                 </Card>
         );
+        var date = (
+            <Card body inverse style={{ backgroundColor: '#333', borderColor: '#333' }}>
+                <CardText>
+                    {item.start_year}
+                </CardText>
+            </Card>
+        );
+        var left = <div></div>;
+        var right = <div></div>;
+        if(index % 2)
+        {
+            left = card;
+            right = date;
+        }
+        else
+        {
+            right = card;
+            left = date;
+        }
+        return (
+            <Row>
+                <Col>
+                {left}
+                </Col>
+                <Col>
+                </Col>
+                <Col>
+                {right}
+                </Col>
+            </Row>
+        );
     }
 
-    private renderCVStats(data: CVTimelineDefn[]) {
+    private renderCVTimeline(data: CVTimelineDefn[]) {
         var contents = data.map((item, index) => {
             return this.renderCard(item, index);
         });
        
-        return (<CardColumns>{contents}</CardColumns>);
+        return (<div>{contents}</div>);
     }
 }
